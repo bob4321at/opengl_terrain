@@ -28,5 +28,9 @@ func InitOpenGL() uint32 {
 	gl.AttachShader(prog, FragmentShader)
 	gl.LinkProgram(prog)
 	gl.Enable(gl.DEPTH_TEST)
+	gl.ClearColor(0.35, 0.35, 1, 1)
+	gl.PointSize(10)
+	// gl.Enable(gl.CULL_FACE)
+	// gl.CullFace(gl.BACK)
 	return prog
 }

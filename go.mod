@@ -7,3 +7,5 @@ require (
 	github.com/go-gl/glfw v0.0.0-20250301202403-da16c1255728
 	github.com/go-gl/mathgl v1.2.0
 )
+
+require github.com/udhos/gwob v1.0.0 // indirect

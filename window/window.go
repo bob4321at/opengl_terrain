@@ -15,7 +15,7 @@ func MakeWindow() *glfw.Window {
 	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
 	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
 
-	window, err := glfw.CreateWindow(1280, 720, "skibidi", nil, nil)
+	window, err := glfw.CreateWindow(1920, 1080, "skibidi", nil, nil)
 	if err != nil {
 		panic(err)
 	}

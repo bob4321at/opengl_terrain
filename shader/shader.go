@@ -10,20 +10,20 @@ import (
 var VertexShaderSource = `
 	#version 410
     	layout (location = 0) in vec3 aPos;
-    	layout (location = 1) in vec3 aColor;
+    	layout (location = 1) in vec3 aNormal;
 
 	uniform mat4 model;
 	uniform mat4 view;
 	uniform mat4 projection;
 
-    	out vec4 Pos;
-    	out vec3 Color;
+    	out vec3 Pos;
+    	out vec3 Normal;
 
 	void main()
 	{
     		gl_Position = projection * model * view * vec4(aPos, 1.0);
-		Pos = model * vec4(aPos, 1);
-		Color = aColor;
+		Pos = aPos;
+		Normal = aNormal;
 	}
 
 ` + "\x00"
@@ -31,10 +31,13 @@ var VertexShaderSource = `
 var FragmentShaderSource = `
     	#version 410
     	out vec4 frag_colour;
-    	in vec4 Pos;
-	in vec3 Color;
+    	in vec3 Pos;
+		in vec3 Normal;
+
     	void main() {
-        	frag_colour = vec4(0, Pos.y+2.5, 0, 1);
+    		// float shade = Normal.x + Normal.y + Normal.z / 4-0.2;
+        	// frag_colour = vec4(shade/4, shade+0.1/4, shade/4, 1);
+        	frag_colour = vec4(Normal.x*100, Normal.y*100, Normal.z*100, 1);
     	}
 ` + "\x00"
 

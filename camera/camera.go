@@ -22,6 +22,7 @@ type Camera struct {
 	CamX        float32
 	Perspective mgl32.Mat4
 	Model       mgl32.Mat4
+	Speed       float32
 
 	CameraRotation mgl32.Vec3
 }
@@ -42,8 +43,10 @@ func NewCamera(Pos mgl32.Vec3, Target_Pos mgl32.Vec3) (c Camera) {
 
 	c.Perspective = mgl32.Perspective(mgl32.DegToRad(45), 1280/720, 0.1, 100)
 
-	c.Model = mgl32.Mat4{1}
-	c.Model = mgl32.Translate3D(0, -1, 0)
+	// c.Model = mgl32.Mat4{1}
+	// c.Model = mgl32.Translate3D(0, -1, 0)
+
+	c.Speed = 5
 
 	return c
 }
@@ -74,23 +77,23 @@ func (c *Camera) Update(window *glfw.Window) {
 		c.CameraRotation = c.CameraRotation.Add(mgl32.Vec3{0, 0.03 * utils.DT, 0})
 	}
 
-	if window.GetKey(glfw.KeyJ) == glfw.Press {
+	if window.GetKey(glfw.KeyJ) == glfw.Press && c.CameraRotation.X()-0.03 > -89.9 {
 		c.CameraRotation = c.CameraRotation.Add(mgl32.Vec3{-0.03 * utils.DT, 0, 0})
 	}
-	if window.GetKey(glfw.KeyK) == glfw.Press {
+	if window.GetKey(glfw.KeyK) == glfw.Press && c.CameraRotation.X()+0.03 < 89.9 {
 		c.CameraRotation = c.CameraRotation.Add(mgl32.Vec3{0.03 * utils.DT, 0, 0})
 	}
 
 	if window.GetKey(glfw.KeyW) == glfw.Press {
-		c.Pos = c.Pos.Add(mgl32.Vec3{c.CamX / 100 * utils.DT, 0, c.CamZ / 100 * utils.DT})
+		c.Pos = c.Pos.Add(mgl32.Vec3{c.CamX / 100 * utils.DT * c.Speed, 0, c.CamZ / 100 * utils.DT * c.Speed})
 	} else if window.GetKey(glfw.KeyS) == glfw.Press {
-		c.Pos = c.Pos.Sub(mgl32.Vec3{c.CamX / 100 * utils.DT, 0, c.CamZ / 100 * utils.DT})
+		c.Pos = c.Pos.Sub(mgl32.Vec3{c.CamX / 100 * utils.DT * c.Speed, 0, c.CamZ / 100 * utils.DT * c.Speed})
 	}
 
 	if window.GetKey(glfw.KeyD) == glfw.Press {
-		c.Pos = c.Pos.Add(mgl32.Vec3{c.Right.X() * float32(c.Radius) / 100 * utils.DT, 0, c.Right.Z() * float32(c.Radius) / 100 * utils.DT})
+		c.Pos = c.Pos.Add(mgl32.Vec3{c.Right.X() * float32(c.Radius) / 100 * utils.DT * c.Speed, 0, c.Right.Z() * float32(c.Radius) / 100 * utils.DT * c.Speed})
 	} else if window.GetKey(glfw.KeyA) == glfw.Press {
-		c.Pos = c.Pos.Sub(mgl32.Vec3{c.Right.X() * float32(c.Radius) / 100 * utils.DT, 0, c.Right.Z() * float32(c.Radius) / 100 * utils.DT})
+		c.Pos = c.Pos.Sub(mgl32.Vec3{c.Right.X() * float32(c.Radius) / 100 * utils.DT * c.Speed, 0, c.Right.Z() * float32(c.Radius) / 100 * utils.DT * c.Speed})
 	}
 
 	if window.GetKey(glfw.KeyQ) == glfw.Press {
